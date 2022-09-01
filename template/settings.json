@@ -1,0 +1,12 @@
+{
+    "start": "2022-04-14 08:49:47.485835",
+    "sampling_rate": 100,
+    "log_interval": 1,
+    "num_channels": 1,
+    "plant": "None",
+    "実験場所": "None",
+    "気温": "None",
+    "湿度": "None",
+    "目的": "None",
+    "メモ":"テンプレートから読み込み"
+}
