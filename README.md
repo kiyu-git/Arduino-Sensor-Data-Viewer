@@ -78,7 +78,7 @@ GUI のパラメータ説明
 
 ## Author
 
-質問等は twitter または[Issues](./issues)より
+質問等は twitter または[Issues](https://github.com/kiyu-git/Arduino-Sensor-Data-Viewer/issues)より
 
 twitter: https://twitter.com/kyu_yukirinrin
 
