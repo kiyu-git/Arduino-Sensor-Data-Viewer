@@ -1,0 +1,11 @@
+{
+    "channel": 0,
+    "start_date": "2021-10-14_17-40-00",
+    "invert_flg": false,
+    "num_load_hours": 1,
+    "LPF_strength": 0.8,
+    "on_threshold": 0.03,
+    "off_threshold": 0.03,
+    "update_flg": false,
+    "update_seconds": 10
+}
