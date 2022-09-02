@@ -2,7 +2,11 @@
 
 csv ファイルをリアルタイムに読み込み、解析・表示するクロスプラットフォーム GUI アプリケーション
 
-video comming soon...!
+
+
+https://user-images.githubusercontent.com/47422498/188201253-5435330d-68b9-403f-bfe2-4fd7f1703085.mov
+
+
 
 ## Overview
 
