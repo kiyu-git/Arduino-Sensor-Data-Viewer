@@ -474,7 +474,7 @@ class DrawGraph:
                 ### value
                 value: float = float(row[1 + self.settings["channel"]])
                 if self.settings["invert_flg"]:
-                    value: float = float(2.5 + abs(2.5 - value))
+                    value: float = float(5 - value)
                 self.data_arr["raw"].append(value)
 
                 ### filtered LPF
