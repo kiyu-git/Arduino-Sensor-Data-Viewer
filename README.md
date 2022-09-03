@@ -8,6 +8,9 @@ https://user-images.githubusercontent.com/47422498/188201253-5435330d-68b9-403f-
 
 csv ファイルをリアルタイムに読み込み、解析・表示する PyQt ベースの汎用的なアプリケーションです。[Arduino Serial Plot Recorder](https://github.com/kiyu-git/Arduino-Serial-Plot-Recorder)と組み合わせることで、リアルタイムにセンサー等のデータを解析できます。軽量なので、Raspberry Pi などでも動作します。長期間の観測に向いています。
 
+[こちら](https://kiyu-shop.booth.pm/items/4140938)からプロジェクトへの寄付ができます。
+継続的なプロジェクト維持のため、ぜひ寄付をお願いいたします。
+
 ## Requirement
 
 ### Mac
