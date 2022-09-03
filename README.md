@@ -2,11 +2,7 @@
 
 csv ファイルをリアルタイムに読み込み、解析・表示するクロスプラットフォーム GUI アプリケーション
 
-
-
 https://user-images.githubusercontent.com/47422498/188201253-5435330d-68b9-403f-bfe2-4fd7f1703085.mov
-
-
 
 ## Overview
 
@@ -79,6 +75,11 @@ GUI のパラメータ説明
 ![Plant-Bioelectric-Potential-Mearurement](https://github.com/kiyu-git/Plant-Bioelectric-Potential-Sensor/raw/main/images/Plant-Bioelectric-Potential-Mearurement.jpeg)
 
 ## Reference
+
+## Donation
+
+[こちら](https://kiyu-shop.booth.pm/items/4140938)からプロジェクトへの寄付ができます。
+継続的なプロジェクト維持のため、ぜひ寄付をお願いいたします。
 
 ## Author
 
