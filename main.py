@@ -167,7 +167,6 @@ class GraphWindow(QtWidgets.QWidget):
             else:
                 self.dir_path = dir
                 self.folder_paths = tools.get_latest_folder_paths(self.dir_path)
-                print(self.folder_paths)
                 path_latest_folder: str = self.folder_paths[0]
                 self.folder_path = path_latest_folder
                 self.droppdown_items = tools.make_droppdown_item(self.folder_paths)
@@ -453,6 +452,10 @@ class DrawGraph:
                 else raw_data[self.line_loaded :]
             )
             self.line_loaded = len(raw_data)
+
+            # 最終行のNULLを削除
+            if "\0" in new_data[-1]:
+                new_data = new_data[0:-1]
 
             # 読み込み
             for row in csv.reader(new_data):
