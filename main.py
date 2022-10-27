@@ -9,6 +9,7 @@ import sys
 import time
 from collections import deque
 from itertools import islice
+from turtle import width
 
 import numpy as np
 import pandas as pd
@@ -388,11 +389,11 @@ class DrawGraph:
         # plots
         plots: dict[str, None] = {}
         plots["raw"] = graph["graphic"].plot(
-            pen=next(self.colorpalette),
+            pen=pg.mkPen(color=next(self.colorpalette), width=2),
             name="<span style='color: #ffffff; font-size: 12px'>Raw Signal</span>",
         )
         plots["filtered"] = graph["graphic"].plot(
-            pen=next(self.colorpalette),
+            pen=pg.mkPen(color=next(self.colorpalette), width=2),
             name="<span style='color: #ffffff; font-size: 12px'>Filtered Signal</span>",
         )
         # plots["HPF"] = graph["graphic"].plot(
