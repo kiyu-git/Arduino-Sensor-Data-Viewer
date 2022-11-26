@@ -40,6 +40,39 @@ csv ファイルをリアルタイムに読み込み、解析・表示する PyQ
 % git clone https://github.com/kiyu-git/Arduino-Sensor-Data-Viewer
 ```
 
+### Raspberry pi
+
+- Python のインストール
+
+```
+$ curl https://pyenv.run | bash
+$ python -V
+Python 3.9.2
+```
+
+- PyQt のインストール
+
+```
+$ sudo apt install libffi-dev
+$ sudo apt install libatlas-base-dev
+$ sudo apt install qtbase5-dev qtchooser qt5-qmake qtbase5-dev-tool
+```
+
+- pip package のインストール
+
+```
+$ pip install pyqt5
+$ pip install numpy pyserial pyqtgraph pandas
+```
+
+- リポジトリのクローン
+
+```
+$ mkdir PlantAnalysisApps
+$ cd PlantAnalysisApps
+$ git clone https://github.com/kiyu-git/Arduino-Sensor-Data-Viewer
+```
+
 ## Usage
 
 ### Python
