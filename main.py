@@ -297,9 +297,9 @@ class DrawGraph:
         sample_freq = 1 / float(_measurement_settings["log_interval"])
         self.num_load_samples = int(_settings["num_load_hours"] * 60 * 60 * sample_freq)
         self.data_arr: dict[str, deque] = {
-            "date": deque([], self.num_load_samples),
-            "raw": deque([], self.num_load_samples),
-            "filtered": deque([], self.num_load_samples),
+            "date": deque([], maxlen=self.num_load_samples),
+            "raw": deque([], maxlen=self.num_load_samples),
+            "filtered": deque([], maxlen=self.num_load_samples),
             # "HPF": deque([], self.num_load_samples),
         }
         self.line_loaded = 0
@@ -387,15 +387,17 @@ class DrawGraph:
         graph["graphic"].setLabel("left", "Electric Potential", units="V")
         graph["graphic"].setLabel("bottom", "Time")
         # plots
+        self.main_line_color = next(self.colorpalette)
         plots: dict[str, None] = {}
         plots["raw"] = graph["graphic"].plot(
-            pen=pg.mkPen(color=next(self.colorpalette), width=2),
+            pen=pg.mkPen(color=self.main_line_color, width=2),
             name="<span style='color: #ffffff; font-size: 12px'>Raw Signal</span>",
         )
         plots["filtered"] = graph["graphic"].plot(
             pen=pg.mkPen(color=next(self.colorpalette), width=2),
             name="<span style='color: #ffffff; font-size: 12px'>Filtered Signal</span>",
         )
+
         # plots["HPF"] = graph["graphic"].plot(
         #     pen=next(self.colorpalette),
         #     name="<span style='color: #ffffff; font-size: 12px'>LPF</span>",
@@ -446,16 +448,16 @@ class DrawGraph:
         logger.info("########\nfile loading...")
         with open(self.csv_path) as f:
             # 読み込み制限
-            raw_data = f.readlines()
+            raw_data = f.readlines()  ## ファイルを全行読む
             new_data = (
-                raw_data[-self.num_load_samples :]
+                raw_data[-self.num_load_samples :]  ## 初回読み込みの場合は制限の分だけ読む
                 if _init_call_flg
-                else raw_data[self.line_loaded :]
+                else raw_data[self.line_loaded :]  ## 初回以外の読み込みの場合は未読み込みの部分だけ読む
             )
             self.line_loaded = len(raw_data)
 
             # 最終行のNULLを削除
-            if "\0" in new_data[-1]:
+            if 0 < len(new_data) and "\0" in new_data[-1]:
                 new_data = new_data[0:-1]
 
             # 読み込み
@@ -511,7 +513,8 @@ class DrawGraph:
         )
         for k in self.data_arr.keys():
             self.data_arr[k] = deque(
-                islice(self.data_arr[k], max(0, start_idx - 1), None)
+                islice(self.data_arr[k], max(0, start_idx - 1), None),
+                maxlen=self.num_load_samples,
             )
 
         # make pandas
@@ -570,7 +573,7 @@ class DrawGraph:
                             dt.datetime.fromtimestamp(index).strftime(
                                 "%Y/%m/%d %H:%M:%S"
                             ),
-                            next(self.colorpalette),
+                            self.main_line_color,
                             self.data.loc[index]["filtered"],
                         )
                     )
