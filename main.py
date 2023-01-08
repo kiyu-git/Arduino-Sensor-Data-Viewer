@@ -14,9 +14,10 @@ from turtle import width
 import numpy as np
 import pandas as pd
 import pyqtgraph as pg
-from PyQt5 import QtCore, QtWidgets, uic
+from PySide6 import QtCore, QtWidgets
 
 import tools
+from UI.Ui_Analyzer import Ui_Analyzer
 
 """
 Set Logger
@@ -52,7 +53,10 @@ class GraphWindow(QtWidgets.QWidget):
 
     def __init__(self, *args, **kwargs):
         super(GraphWindow, self).__init__(*args, **kwargs)
-        uic.loadUi("./UI/analysis_simple.ui", self)
+        # uic.loadUi("./UI/analysis_simple.ui", self)
+        self.ui = Ui_Analyzer()
+        self.ui.setupUi(self)
+
         self.setWindowTitle("Analyzer")
         # logger
         dashLoggerHandler = DashLoggerHandler(self.InputConsole)
