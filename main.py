@@ -59,7 +59,7 @@ class GraphWindow(QtWidgets.QWidget):
 
         self.setWindowTitle("Analyzer")
         # logger
-        dashLoggerHandler = DashLoggerHandler(self.InputConsole)
+        dashLoggerHandler = DashLoggerHandler(self.ui.InputConsole)
         logger.addHandler(dashLoggerHandler)
         # init graphs
         self.dir_path = "../../002_生体電位測定/Data"
@@ -87,65 +87,65 @@ class GraphWindow(QtWidgets.QWidget):
             self.csv_path,
             self.settings,
             self.measurement_settings,
-            self.GraphicsLayoutWidget,
+            self.ui.GraphicsLayoutWidget,
         )
 
     def set_inspector_ui(self):
         droppdown_items = tools.make_droppdown_item(self.folder_paths)
         droppdown_item_labels = [item["label"] for item in droppdown_items]
-        self.InputFiles.addItems(droppdown_item_labels)
-        self.InputFiles.setCurrentText(droppdown_item_labels[0])
+        self.ui.InputFiles.addItems(droppdown_item_labels)
+        self.ui.InputFiles.setCurrentText(droppdown_item_labels[0])
         self.pre_file_idx = 0
-        self.InputFiles.currentIndexChanged.connect(
+        self.ui.InputFiles.currentIndexChanged.connect(
             lambda index: self.load_new_file(index)
         )
 
-        self.InputProgram.setText(os.path.basename(__file__))
+        self.ui.InputProgram.setText(os.path.basename(__file__))
 
-        self.InputChannel.setRange(0, self.measurement_settings["num_channels"] - 1)
-        self.InputChannel.setSingleStep(1)
-        self.InputChannel.setValue(self.settings["channel"])
-        self.InputChannel.valueChanged.connect(
+        self.ui.InputChannel.setRange(0, self.measurement_settings["num_channels"] - 1)
+        self.ui.InputChannel.setSingleStep(1)
+        self.ui.InputChannel.setValue(self.settings["channel"])
+        self.ui.InputChannel.valueChanged.connect(
             lambda value: self.update_graph_with_variables("channel", value)
         )
 
-        self.InputStartDate.setDateTime(
+        self.ui.InputStartDate.setDateTime(
             dt.datetime.strptime(self.settings["start_date"], "%Y-%m-%d_%H-%M-%S")
         )
-        self.InputStartDate.setDisplayFormat("yyyy/MM/dd hh:mm:ss")
-        self.InputStartDate.setSelectedSection(0x0008)
-        self.InputStartDate.dateTimeChanged.connect(
+        self.ui.InputStartDate.setDisplayFormat("yyyy/MM/dd hh:mm:ss")
+        self.ui.InputStartDate.setSelectedSection(QtWidgets.QDateTimeEdit.HourSection)
+        self.ui.InputStartDate.dateTimeChanged.connect(
             lambda value: self.update_graph_with_variables("start_date", value)
         )
 
-        self.InputInvertFlg.setChecked(self.settings["invert_flg"])
-        self.InputInvertFlg.stateChanged.connect(
+        self.ui.InputInvertFlg.setChecked(self.settings["invert_flg"])
+        self.ui.InputInvertFlg.stateChanged.connect(
             lambda value: self.update_graph_with_variables("invert_flg", value)
         )
 
-        self.InputLoadLimit.setMinimum(1)
-        self.InputLoadLimit.setSingleStep(1)
-        self.InputLoadLimit.setValue(self.settings["num_load_hours"])
-        self.InputLoadLimit.valueChanged.connect(
+        self.ui.InputLoadLimit.setMinimum(1)
+        self.ui.InputLoadLimit.setSingleStep(1)
+        self.ui.InputLoadLimit.setValue(self.settings["num_load_hours"])
+        self.ui.InputLoadLimit.valueChanged.connect(
             lambda value: self.update_graph_with_variables("num_load_hours", value)
         )
 
-        self.InputLPFStrength.setRange(0.0, 1.0)
-        self.InputLPFStrength.setSingleStep(0.1)
-        self.InputLPFStrength.setValue(self.settings["LPF_strength"])
-        self.InputLPFStrength.valueChanged.connect(
+        self.ui.InputLPFStrength.setRange(0.0, 1.0)
+        self.ui.InputLPFStrength.setSingleStep(0.1)
+        self.ui.InputLPFStrength.setValue(self.settings["LPF_strength"])
+        self.ui.InputLPFStrength.valueChanged.connect(
             lambda value: self.update_graph_with_variables("LPF_strength", value)
         )
 
-        self.InputUpdateFlg.setChecked(self.settings["update_flg"])
-        self.InputUpdateFlg.stateChanged.connect(
+        self.ui.InputUpdateFlg.setChecked(self.settings["update_flg"])
+        self.ui.InputUpdateFlg.stateChanged.connect(
             lambda value: self.update_graph_with_variables("update_flg", value)
         )
 
-        self.InputUpdateInterval.setMinimum(5)
-        self.InputUpdateInterval.setSingleStep(5)
-        self.InputUpdateInterval.setValue(self.settings["update_seconds"])
-        self.InputUpdateInterval.valueChanged.connect(
+        self.ui.InputUpdateInterval.setMinimum(5)
+        self.ui.InputUpdateInterval.setSingleStep(5)
+        self.ui.InputUpdateInterval.setValue(self.settings["update_seconds"])
+        self.ui.InputUpdateInterval.valueChanged.connect(
             lambda value: self.update_graph_with_variables("update_seconds", value)
         )
 
@@ -166,9 +166,11 @@ class GraphWindow(QtWidgets.QWidget):
             )
             if dir == "":
                 droppdown_item_labels = [item["label"] for item in self.droppdown_items]
-                self.InputFiles.blockSignals(True)
-                self.InputFiles.setCurrentText(droppdown_item_labels[self.pre_file_idx])
-                self.InputFiles.blockSignals(False)
+                self.ui.InputFiles.blockSignals(True)
+                self.ui.InputFiles.setCurrentText(
+                    droppdown_item_labels[self.pre_file_idx]
+                )
+                self.ui.InputFiles.blockSignals(False)
             else:
                 self.dir_path = dir
                 self.folder_paths = tools.get_latest_folder_paths(self.dir_path)
@@ -180,12 +182,12 @@ class GraphWindow(QtWidgets.QWidget):
                 self.init_variables(self.folder_path)
 
                 # file listの更新
-                self.InputFiles.blockSignals(True)
-                self.InputFiles.clear()
-                self.InputFiles.addItems(droppdown_item_labels)
-                self.InputFiles.setCurrentText(droppdown_item_labels[0])
+                self.ui.InputFiles.blockSignals(True)
+                self.ui.InputFiles.clear()
+                self.ui.InputFiles.addItems(droppdown_item_labels)
+                self.ui.InputFiles.setCurrentText(droppdown_item_labels[0])
                 self.pre_file_idx = 0
-                self.InputFiles.blockSignals(False)
+                self.ui.InputFiles.blockSignals(False)
 
                 # uiの更新
                 self.update_inspector_ui(self.settings, self.measurement_settings)
@@ -196,27 +198,27 @@ class GraphWindow(QtWidgets.QWidget):
             self.update_inspector_ui(self.settings, self.measurement_settings)
 
     def update_inspector_ui(self, settings, measurement_settings):
-        self.InputChannel.blockSignals(True)
-        self.InputStartDate.blockSignals(True)
-        self.InputInvertFlg.blockSignals(True)
-        self.InputLoadLimit.blockSignals(True)
-        self.InputLPFStrength.blockSignals(True)
-        self.InputChannel.setRange(0, measurement_settings["num_channels"] - 1)
-        self.InputChannel.setValue(settings["channel"])
-        self.InputStartDate.setDateTime(
+        self.ui.InputChannel.blockSignals(True)
+        self.ui.InputStartDate.blockSignals(True)
+        self.ui.InputInvertFlg.blockSignals(True)
+        self.ui.InputLoadLimit.blockSignals(True)
+        self.ui.InputLPFStrength.blockSignals(True)
+        self.ui.InputChannel.setRange(0, measurement_settings["num_channels"] - 1)
+        self.ui.InputChannel.setValue(settings["channel"])
+        self.ui.InputStartDate.setDateTime(
             dt.datetime.strptime(settings["start_date"], "%Y-%m-%d_%H-%M-%S")
         )
-        self.InputInvertFlg.setChecked(settings["invert_flg"])
-        self.InputLoadLimit.setValue(settings["num_load_hours"])
-        self.InputLPFStrength.setValue(settings["LPF_strength"])
-        self.InputUpdateFlg.setChecked(settings["update_flg"])
-        self.InputUpdateInterval.setValue(settings["update_seconds"])
+        self.ui.InputInvertFlg.setChecked(settings["invert_flg"])
+        self.ui.InputLoadLimit.setValue(settings["num_load_hours"])
+        self.ui.InputLPFStrength.setValue(settings["LPF_strength"])
+        self.ui.InputUpdateFlg.setChecked(settings["update_flg"])
+        self.ui.InputUpdateInterval.setValue(settings["update_seconds"])
         self.update_timer.setInterval(settings["update_seconds"] * 1000)
-        self.InputChannel.blockSignals(False)
-        self.InputStartDate.blockSignals(False)
-        self.InputInvertFlg.blockSignals(False)
-        self.InputLoadLimit.blockSignals(False)
-        self.InputLPFStrength.blockSignals(False)
+        self.ui.InputChannel.blockSignals(False)
+        self.ui.InputStartDate.blockSignals(False)
+        self.ui.InputInvertFlg.blockSignals(False)
+        self.ui.InputLoadLimit.blockSignals(False)
+        self.ui.InputLPFStrength.blockSignals(False)
 
     def update_graph_with_variables(self, key, value):
         # settingsの更新
@@ -601,4 +603,4 @@ if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     myWin = GraphWindow()
     myWin.show()
-    sys.exit(app.exec_())
+    sys.exit(app.exec())
