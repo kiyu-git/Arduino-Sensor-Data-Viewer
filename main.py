@@ -9,9 +9,7 @@ import sys
 import time
 from collections import deque
 from itertools import islice
-from turtle import width
 
-import numpy as np
 import pandas as pd
 import pyqtgraph as pg
 from PyQt5 import QtCore, QtWidgets, uic
