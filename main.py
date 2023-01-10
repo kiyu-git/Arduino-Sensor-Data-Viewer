@@ -9,9 +9,7 @@ import sys
 import time
 from collections import deque
 from itertools import islice
-from turtle import width
 
-import numpy as np
 import pandas as pd
 import pyqtgraph as pg
 from PySide6 import QtCore, QtWidgets
@@ -66,6 +64,11 @@ class GraphWindow(QtWidgets.QWidget):
         if not os.path.exists(self.dir_path):
             self.dir_path = "./template/Data"
         self.folder_paths = tools.get_latest_folder_paths(self.dir_path)
+        # fallback in Build App
+        if len(self.folder_paths) == 0:
+            self.dir_path = os.path.join(os.path.dirname(__file__), self.dir_path)
+            self.folder_paths = tools.get_latest_folder_paths(self.dir_path)
+
         path_latest_folder: str = self.folder_paths[0]
 
         self.init_variables(path_latest_folder)
