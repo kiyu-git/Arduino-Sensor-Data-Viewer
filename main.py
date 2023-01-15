@@ -164,8 +164,15 @@ class GraphWindow(QtWidgets.QWidget):
                 self.InputFiles.setCurrentText(droppdown_item_labels[self.pre_file_idx])
                 self.InputFiles.blockSignals(False)
             else:
+                # validation
+                folder_paths = tools.get_latest_folder_paths(dir)
+                if len(folder_paths) == 0:
+                    logger.info("########\nError: フォルダーが無効です。")
+                    # 再度QFileDialogを表示
+                    self.load_new_file(idx)
+                    return
                 self.dir_path = dir
-                self.folder_paths = tools.get_latest_folder_paths(self.dir_path)
+                self.folder_paths = folder_paths
                 path_latest_folder: str = self.folder_paths[0]
                 self.folder_path = path_latest_folder
                 self.droppdown_items = tools.make_droppdown_item(self.folder_paths)
