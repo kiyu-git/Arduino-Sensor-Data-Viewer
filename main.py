@@ -311,10 +311,10 @@ class DrawGraph:
 
     def set_view_area(self, _setX=True, _setY=True):
         self.graphs["signals"]["graphic"].setLimits(
-            xMin=0,
-            xMax=sys.float_info.max,
-            yMin=sys.float_info.min,
-            yMax=sys.float_info.max,
+            xMin=None,
+            xMax=None,
+            yMin=None,
+            yMax=None,
         )
         if _setX:
             self.graphs["range"]["region"].setRegion(
@@ -322,10 +322,13 @@ class DrawGraph:
             )
         self.graphs["signals"]["graphic"].enableAutoRange(axis="y")
         self.graphs["signals"]["graphic"].setAutoVisible(y=True)
-        view = self.graphs["signals"]["graphic"].viewRange()
-        self.graphs["signals"]["graphic"].setLimits(
-            xMin=view[0][0], xMax=view[0][1], yMin=view[1][0], yMax=view[1][1]
-        )
+        # Issue #7の対応でコメントアウト
+        # self.graphs["signals"]["graphic"].viewRange()の計算がおかしいことが原因と思われる
+        # view = self.graphs["signals"]["graphic"].viewRange()
+        # print(view)
+        # self.graphs["signals"]["graphic"].setLimits(
+        #     xMin=view[0][0], xMax=view[0][1], yMin=view[1][0], yMax=view[1][1]
+        # )
 
     def set_graph_ui(self) -> dict:
         """
