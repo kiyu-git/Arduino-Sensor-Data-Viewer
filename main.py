@@ -164,8 +164,15 @@ class GraphWindow(QtWidgets.QWidget):
                 self.InputFiles.setCurrentText(droppdown_item_labels[self.pre_file_idx])
                 self.InputFiles.blockSignals(False)
             else:
+                # validation
+                folder_paths = tools.get_latest_folder_paths(dir)
+                if len(folder_paths) == 0:
+                    logger.info("########\nError: フォルダーが無効です。")
+                    # 再度QFileDialogを表示
+                    self.load_new_file(idx)
+                    return
                 self.dir_path = dir
-                self.folder_paths = tools.get_latest_folder_paths(self.dir_path)
+                self.folder_paths = folder_paths
                 path_latest_folder: str = self.folder_paths[0]
                 self.folder_path = path_latest_folder
                 self.droppdown_items = tools.make_droppdown_item(self.folder_paths)
@@ -304,10 +311,10 @@ class DrawGraph:
 
     def set_view_area(self, _setX=True, _setY=True):
         self.graphs["signals"]["graphic"].setLimits(
-            xMin=0,
-            xMax=sys.float_info.max,
-            yMin=sys.float_info.min,
-            yMax=sys.float_info.max,
+            xMin=None,
+            xMax=None,
+            yMin=None,
+            yMax=None,
         )
         if _setX:
             self.graphs["range"]["region"].setRegion(
@@ -315,10 +322,13 @@ class DrawGraph:
             )
         self.graphs["signals"]["graphic"].enableAutoRange(axis="y")
         self.graphs["signals"]["graphic"].setAutoVisible(y=True)
-        view = self.graphs["signals"]["graphic"].viewRange()
-        self.graphs["signals"]["graphic"].setLimits(
-            xMin=view[0][0], xMax=view[0][1], yMin=view[1][0], yMax=view[1][1]
-        )
+        # Issue #7の対応でコメントアウト
+        # self.graphs["signals"]["graphic"].viewRange()の計算がおかしいことが原因と思われる
+        # view = self.graphs["signals"]["graphic"].viewRange()
+        # print(view)
+        # self.graphs["signals"]["graphic"].setLimits(
+        #     xMin=view[0][0], xMax=view[0][1], yMin=view[1][0], yMax=view[1][1]
+        # )
 
     def set_graph_ui(self) -> dict:
         """

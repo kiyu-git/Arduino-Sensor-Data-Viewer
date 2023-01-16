@@ -5,10 +5,14 @@ from glob import glob
 
 def get_latest_folder_paths(dirname):
     target = os.path.join(dirname, "*")
-    files = [(f, os.path.getmtime(f)) for f in glob(target)]
-    # ファイルの名前を参照して並べ替え
-    file_paths = [path for path, file in sorted(files, reverse=True)]
-    return file_paths
+    folders = [f for f in glob(target) if os.path.isdir(f)]
+    # フォルダの名前を参照して並べ替え / .csvファイルを内包するファイルのみ抽出
+    folder_paths = [
+        path
+        for path in sorted(folders, reverse=True)
+        if os.path.isfile(get_csv_path(path))
+    ]
+    return folder_paths
 
 
 def get_csv_path(_path_folder: str) -> str:
